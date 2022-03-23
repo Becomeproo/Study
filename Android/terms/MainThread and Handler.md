@@ -59,19 +59,19 @@ Handler(Looper lopper, Handler.Callback callback)
 Handler에는 4가지 생성자가 있다. Handler는 Looper(결국 MessageQueue)와 연결되어 있다. 기본 생성자는 바로 생성자를 호출하는 스레드의 Looper를 사용하겠다는 의미이다. 메인 스레드에서 Handler 기본 생성자는 앱 프로세스가 시작할 때 ActivityThread에서 생성한 메인 Looper를 사용한다. Handler 기본 생성자는 UI 작업을 할 때 많이 사용된다.
   
 * Handler 동작
-  위에서 언듭했듯이 Handler는 Message를 MessageQueue에 보내는 것과 Message를 처리하는 기능을 함께 제공한다. post(), postAtTime(), postDelayed() 메서드를 통해서 Runnable 객체도 전달되는데, Runnable도 내부적으로 Message에 포함되는 값이다.
+위에서 언듭했듯이 Handler는 Message를 MessageQueue에 보내는 것과 Message를 처리하는 기능을 함께 제공한다. post(), postAtTime(), postDelayed() 메서드를 통해서 Runnable 객체도 전달되는데, Runnable도 내부적으로 Message에 포함되는 값이다.
 
 * Handler 용도
-  Handler는 일반적으로 UI 갱신을 위해 사용된다.
+Handler는 일반적으로 UI 갱신을 위해 사용된다.
   1. 백그라운드 스레드에서 UI 업데이트 : 백그라운드 스레드에서 네트워크나 DB 작업 등을 하는 도중에 UI를 업데이트한다. AsyncTask에서 내부적으로 Handler를 이용해서 onPostExecute() 메서드를 실행하여 UI를 업데이트한다.
   2. 메인 스레드에서 다음 작업 예약 : UI 작업 중에 다음 UI 갱신 작업을 MessageQueue에 넣어 예약한다. 작업 예약이 필요한 경우가 있는데, 예를 들어, Activity의 onCreate() 메서드에서(소프트 키보드를 띄우는 것이나, ListView의 setSelection()) 작업을 할 경우 잘 동작하지 않는다. 이때 Handler에 Message를 보내면 현재 작업이 끝난 이후의 다음 타이밍에 Message를 처리한다.
   
 * Handler의 타이밍 이슈
-  원하는 동작 시점과 실제 동작 시점에서 차이가 생기는데, 이런 타이밍 이슈는 메인 스레드와 Handler를 이해하고 나면 해결할 수 있다. Activity의 onCreate() 메서드에서 Handler의 post() 메서드를 실행하면 어느 시점에서 실행될까? 실제 post() 메서드에 전달되는 Runnable이 실행되는 시점은 언제일까? 메인 스레드에서는 하나 번에 하나의 작업밖에 못하고, 여러 작업이 서로 엉키지 않기 위해서 메인 Looper의 MessageQueue에서 Message를 하나씩 꺼내서 처리한다는 것을 염두해두자.
-  MessageQueue에서 Message를 하나 꺼내오면 onCreate() ~ onResume()까지 쭉 실행이 된다. 그럼 답은 나왔다. onCreate()에서 Handler에 post()에 전달한 Runnable은 onResume() 이후에 실핸된다.
+원하는 동작 시점과 실제 동작 시점에서 차이가 생기는데, 이런 타이밍 이슈는 메인 스레드와 Handler를 이해하고 나면 해결할 수 있다. Activity의 onCreate() 메서드에서 Handler의 post() 메서드를 실행하면 어느 시점에서 실행될까? 실제 post() 메서드에 전달되는 Runnable이 실행되는 시점은 언제일까? 메인 스레드에서는 하나 번에 하나의 작업밖에 못하고, 여러 작업이 서로 엉키지 않기 위해서 메인 Looper의 MessageQueue에서 Message를 하나씩 꺼내서 처리한다는 것을 염두해두자.
+MessageQueue에서 Message를 하나 꺼내오면 onCreate() ~ onResume()까지 쭉 실행이 된다. 그럼 답은 나왔다. onCreate()에서 Handler에 post()에 전달한 Runnable은 onResume() 이후에 실행된다.
   
 * 지연 Message는 처리 시점을 보장할 수 없다.
-  Handler에서 전달된 지연 Message는 지연 시간을 정확하게 보장하지 않는다. MessageQueue에서 먼저 꺼낸 Message 처리가 오래 걸린다면 실행은 당연히 늦어진다.
-  예를 들어, 0.2초 후에 로그를 남기는 Handler가 있고, 0.5초를 멈추는 Handler가 있다고 가정하면 로그를 남기는 Handler는 0.2초 후가 아닌 0.5초가 지난 후에 로그를 남긴다.
+Handler에서 전달된 지연 Message는 지연 시간을 정확하게 보장하지 않는다. MessageQueue에서 먼저 꺼낸 Message 처리가 오래 걸린다면 실행은 당연히 늦어진다.
+예를 들어, 0.2초 후에 로그를 남기는 Handler가 있고, 0.5초를 멈추는 Handler가 있다고 가정하면 로그를 남기는 Handler는 0.2초 후가 아닌 0.5초가 지난 후에 로그를 남긴다.
 ***
 출처 : https://www.notion.so/MainThread-Handler-749a3ca1c0444aa6ad1ea88ff70bebc9
