@@ -63,7 +63,7 @@ Handler에는 4가지 생성자가 있다. Handler는 Looper(결국 MessageQueue
 
 * Handler 용도
   Handler는 일반적으로 UI 갱신을 위해 사용된다.
-  1. 백그라운드 스레드에서 UI 업데이트 : 백그라운드 스레드에서 네트워크나 DB 작업 등을 하는 도중에 UI를 업데이트한다. AsyncTask에서 내부적으로 Handler를 이요해서 onPostExecute() 메서드를 실행하여 UI를 업데이트한다.
+  1. 백그라운드 스레드에서 UI 업데이트 : 백그라운드 스레드에서 네트워크나 DB 작업 등을 하는 도중에 UI를 업데이트한다. AsyncTask에서 내부적으로 Handler를 이용해서 onPostExecute() 메서드를 실행하여 UI를 업데이트한다.
   2. 메인 스레드에서 다음 작업 예약 : UI 작업 중에 다음 UI 갱신 작업을 MessageQueue에 넣어 예약한다. 작업 예약이 필요한 경우가 있는데, 예를 들어, Activity의 onCreate() 메서드에서(소프트 키보드를 띄우는 것이나, ListView의 setSelection()) 작업을 할 경우 잘 동작하지 않는다. 이때 Handler에 Message를 보내면 현재 작업이 끝난 이후의 다음 타이밍에 Message를 처리한다.
   
 * Handler의 타이밍 이슈
