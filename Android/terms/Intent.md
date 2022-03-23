@@ -15,3 +15,5 @@
 ### PendingIntent
 Intent를 가지고 있는 클래스로, 기본 목적은 다른 애플리케이션(다른 프로세스)의 권한을 허가하여 가지고 있는 Intent를 마치 본인 앱의 프로세스에서 실행하는 것처럼 사용하는 것이다.
 Notification은 안드로이드 시스템의 NotificationManager가 Intent를 실행한다. 즉, 다른 프로세스에서 수행하기 때문에 Notification으로 Intent 수행 시 PendingIntent의 사용이 필수이다.
+***
+출처 : https://www.notion.so/Intent-6bf3f790682e4724a66afcfd742fdbb6
