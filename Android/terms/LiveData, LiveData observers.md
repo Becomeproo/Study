@@ -27,6 +27,7 @@ viewModel.message.observe(LifecycleOwner등록, Observer {
 ```
 
 > LiveData의 캡슐화
+
 외부에서 직접 필드 내부값을 노출시켜 변경하는 것 보다는 변경할 수 있는 함수를 만들어서 노출한다. UI 컨트롤러는 데이터를 읽어야하므로 데이터 필드가 완전히 비공개 일 수는 없다. LiveData를 캡슐화 하려면 MutableLiveData와 LiveData를 함께 사용해야 한다.
 * MutableLiveData
   말그대로 변경이 가능한 LiveData이다. MutableLiveData 클래스는 setValue(T), postValue(T)의 메서드를 공개로 노출한다. 일반적으로 MutableLiveData는 ViewModel에서 사용되며 ViewModel은 변경이 불가능한 LiveData 객체만 관찰자에게 노출한다.
