@@ -73,6 +73,7 @@ et.addTextChangedListener { text ->
             .let(compositeDisposable::add)
 ```
 ![image](https://user-images.githubusercontent.com/91411447/163092217-9285d10a-ed59-45a7-a37d-d794f126eaac.png)
+
 타이핑을 종료하면 일정 시간 후 반영되는 것을 알 수 있다.
 
 ### throttleFirst
