@@ -127,7 +127,98 @@ btn.setOnClickListener { _onClick.onNext(Unit) }
 ```
 .throttleFirst를 제거한 코드와 비교를 해보면 한 번에 와닿을 수 있을 것이다.
 
+### sample
+발행된 값을 정해진 시간 간격으로 묶고, 그 중 마지막 값을 방출
+(emitLast가 true이면 onComplete 호출 시 남아있는 값을 발행하고 종료) <br>
+![image](https://user-images.githubusercontent.com/91411447/163304643-933978ac-0b60-4a3a-877e-0707ec1a5de5.png)
+![image](https://user-images.githubusercontent.com/91411447/163304658-7f9e37e0-0e96-468b-84ab-6fe7ce22bf33.png)
 
+throttleLast의 리턴 값은 sample이다. emitLast가 있고 없고의 차이이다.
+
+### dintinct
+중복된 값 발행을 방지 <br>
+![image](https://user-images.githubusercontent.com/91411447/163304806-0bd10694-d400-4cc6-aa49-ba7f102d4562.png)
+```
+Observable.just(1, 2, 2, 1, 3)
+    .distinct()
+    .subscribe(::println)
+```
+1, 2가 중복이 되어 있기 때문에 1, 2, 3이 출력된다.
+
+### distinctUntilChanged
+이전 값과 다른 경우에만 방출 <br>
+![image](https://user-images.githubusercontent.com/91411447/163305100-35a617e3-ddee-40ab-81e6-54a521fe9a49.png)
+```
+Observable.just(1, 2, 2, 1, 3)
+    .distinctUntilChanged()
+    .subscribe(::println)
+```
+이전 값과 비교하기 때문에 1, 2, 1, 3 이 출력된다.
+
+### take
+발행된 값 중 n번째까지만 방출 <br>
+![image](https://user-images.githubusercontent.com/91411447/163305211-91d862a1-473e-41f2-870a-73a5dd51d232.png)
+
+### takeLast
+발행된 값 중 뒤에서 n번째까지만 방출 <br>
+(단, onComplete가 호출되지 않으면 무한대가 되므로 onComplete이후에 발행된다.)
+![image](https://user-images.githubusercontent.com/91411447/163305289-c1394b00-773e-4566-8976-26b19f2968f0.png)
+
+### first(Single)
+발행된 값 중 1개만 가져옴 <br>
+(Flowable -> Single, Observable -> Single 로 변환) <br>
+![image](https://user-images.githubusercontent.com/91411447/163306330-c88c113b-ed8f-427e-9f71-96ede91a844b.png)
+```
+Observable.fromArray(1, 2, 3)
+    .first(0)
+    .subscribe { value -> println(value) }
+
+Observable.empty<Int>()
+    .first(0)
+    .subscribe { value -> println(value) }
+```
+첫번째 Observable은 fromArray로 생성한 인자 중 첫번째 값이 1이 방출이 되고 두번째 Observable은 empty를 생성했기 때문에 first의 default item인 0이 방출된다.
+
+### firstOrError(Single)
+first랑 동일하나 error를 방출할 때 사용
+```
+Observable.fromArray(1, 2, 3)
+    .firstOrError
+    .subscribe(::println, Throwable::printStackTrace)
+    
+Observable.empty<Int>()
+    .firstOrError()
+    .subscribe(::println, Throwable::printStackTrace)
+```
+첫번째 Observable은 1이 방출되고, 두번째 Observable은 생성된 값과 default item이 없기 때문에 error를 방출한다. single은 1개의 값 또는 에러라는 것을 다시 한 번 기억하자
+
+### firstElement(Maybe)
+발행된 값 중 1개의 값만 가져옴
+(Flowable -> Maybe, Observable -> Maybe)
+```
+Observable.formArray(1, 2, 3)
+    .firstElement()
+    .subscribe(::println, {}, {
+        println("complete 1")
+    })
+
+Observable.empty<Int>()
+    .firstElement()
+    .subscribee(::println, {}, {
+        println("complete 2")
+    })
+```
+첫번째 Observable은 1이 방출되고, 두번째 Observable은 complete가 호출된다.(Maybe는 1개의 값 또는 방출하지 않거나, 완료 통지를 하기 때문)
+
+### ignoreElements
+발행된 값 중 1개의 값만 가져옴
+(Flowable -> Completable, Observable -> Completabe, Single -> Completable, Maybe -> Completable)
+```
+Observable.just(1, 2, 3)
+    .ignoreElements()
+    .subscribe{ println("complete!") }
+```
+Completable이기 때문에 완료 통지를 한다.
 
 ***
-출처: https://www.notion.so/2-1e43be8260114fbcb78958bc7eae46b7
+출처: https://www.notion.so/3-47374a13d8eb4480b4889909bfdbc98a
