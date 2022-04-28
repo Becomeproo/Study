@@ -58,14 +58,14 @@ EX) '성별'을 '남' 또는 '여'와 같이 정해진 1개의 문자로 표현�
 ## CREATE VIEW
 * CREATE VIEW는 뷰(VIEW)를 정의하는 명령문이다.
 * 표기 형식
-  > CREATE VIEW 뷰명[(속성명[, 속성명, ...])]
+  > CREATE VIEW 뷰명[(속성명[, 속성명, ...])] <br>
   > AS SELECT문;
 
 ## CREATE INDEX
 * CREATE INDEX는 인덱스를 정의하는 명령문이다.
 * 표기 형식
-  > CREATE [UNIQUE] INDEX 인덱스명
-  > ON 테이블명(속성명 [ASC | DESC] [, 속성명[ASC | DESC]])
+  > CREATE [UNIQUE] INDEX 인덱스명 <br>
+  > ON 테이블명(속성명 [ASC | DESC] [, 속성명[ASC | DESC]]) <br>
   > [CLUSTER];
   
 * UNIQUE
@@ -80,9 +80,9 @@ EX) '성별'을 '남' 또는 '여'와 같이 정해진 1개의 문자로 표현�
 ## ALTER TABLE
 * ALTER TABLE은 테이블에 대한 정의를 변경하는 명령문이다.
 * 표기 형식
-  > ALTER TABLE 테이블명 ADD 속성명 데이터_타입 [DEFAULT '기본값'];
-  > ALTER TABLE 테이블명 ALTER 속성명 [SET DEFAULT '기본값'];
-  > ALTER TABLE 테이블명 DROP COLUMN 속성명 [CASCADE];
+  > ALTER TABLE 테이블명 ADD 속성명 데이터_타입 [DEFAULT '기본값']; <br>
+  > ALTER TABLE 테이블명 ALTER 속성명 [SET DEFAULT '기본값']; <br>
+  > ALTER TABLE 테이블명 DROP COLUMN 속성명 [CASCADE]; <br>
 * ADD : 새로운 속성(열)을 추가할 때 사용한다.
 * ALTER : 특정 속성의 DEFAULT 값을 변경할 때 사용한다.
 * DROP_COLUMN : 특정 속성을 삭제할 때 사용한다.
@@ -90,11 +90,11 @@ EX) '성별'을 '남' 또는 '여'와 같이 정해진 1개의 문자로 표현�
 ## DROP
 * DROP은 스키마, 도메인, 기본 테이블, 뷰 테이블, 인덱스, 제약 조건 등을 제거하는 명령문이다.
 * 표기 형식
-  > DROP SCHEMA 스키마명 CASCADE | RESTRICT;
-  > DROP DOMAIN 도메인명 CASCADE | RESTRICT;
-  > DROP TABLE 테이블명 CASCADE | RESTRICT;
-  > DROP VIEW 뷰명 CASCADE | RESTRICT;
-  > DROP INDEX 인덱스명 CASCADE | RESTRICT;
-  > DROP CONSTRAINT 제약조건명;
+  > DROP SCHEMA 스키마명 CASCADE | RESTRICT; <br>
+  > DROP DOMAIN 도메인명 CASCADE | RESTRICT; <br>
+  > DROP TABLE 테이블명 CASCADE | RESTRICT; <br>
+  > DROP VIEW 뷰명 CASCADE | RESTRICT; <br>
+  > DROP INDEX 인덱스명 CASCADE | RESTRICT; <br>
+  > DROP CONSTRAINT 제약조건명; <br>
 * CASCADE : 제거할 요소를 참조하는 다른 모든 개체를 함께 제거한다.
 * RESTRICT : 다른 개체가 제거할 요소를 참조중일 때는 제거를 취소한다.
